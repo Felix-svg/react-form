@@ -66,7 +66,7 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
-form {
+/* form {
   margin: auto;
   width: 50%;
 }
@@ -83,4 +83,5 @@ input[type="checkbox"] {
 img {
   width: 50%;
   margin-bottom: 1rem;
-}
+} */
+

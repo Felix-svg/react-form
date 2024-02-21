@@ -1,91 +1,102 @@
 import { useState } from "react";
 
 function App() {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    avatar: "",
-    accountType: "pro",
-    newsletter: true,
-  });
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [accountType, setAccountType] = useState("");
+  const [newsletter, setNewsletter] = useState(false);
+  const [formData, setFormData] = useState({});
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    console.log(formData);
+  function handleNameChange(e) {
+    setUserName(e.target.value);
   }
 
-  function handleChange(event) {
-    const key = event.target.id;
-    const value =
-      event.target.type === "checkbox"
-        ? event.target.checked
-        : event.target.value;
+  function handlePasswordChange(e) {
+    setPassword(e.target.value);
+  }
 
-    setFormData({
-      ...formData,
-      [key]: value,
+  function handleAvatarChange(e) {
+    setAvatar(e.target.value);
+  }
+
+  function handleAccountTypeChange(e) {
+    setAccountType(e.target.value);
+  }
+
+  function handleSubscribeChange(e) {
+    setNewsletter(e.target.checked);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const newFormData = {
+      username: username,
+      password: password,
+      avatar: avatar,
+      accountType: accountType,
+      newsletter: newsletter,
+    };
+
+    setFormData(newFormData);
+
+    // Clear input fields after submit event
+    setUserName("");
+    setPassword("");
+    setAvatar("");
+    setAccountType("");
+    setNewsletter(false);
+
+    fetch("http://localhost:3000/user", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(formData),
     });
   }
 
-  console.log(formData);
-
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Create an Account</h1>
-      <label htmlFor="username">Username</label>
-      <input
-        type="text"
-        id="username"
-        value={formData.username}
-        onChange={handleChange}
-      />
-      <br></br>
-      <label htmlFor="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        value={formData.password}
-        onChange={handleChange}
-      />
-      <br></br>
-      <label htmlFor="avatar">Avatar Image</label>
-      <input
-        type="text"
-        id="avatar"
-        value={formData.avatar}
-        onChange={handleChange}
-      />
-      <img
-        src={
-          formData.avatar ||
-          "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"
-        }
-        alt="Avatar preview"
-      />
-      <br></br>
-      <label htmlFor="type">Account Type</label>
-      <select
-        id="accountType"
-        value={formData.accountType}
-        onChange={handleChange}
-      >
-        <option value="free">Free</option>
-        <option value="normal">Normal</option>
-        <option value="pro">Pro</option>
-      </select>
-      <br></br>
-      <label>
-        Get Our Newsletter!
+    <div className="form-data">
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="user-name">Username</label>
+        <input type="text" value={username} onChange={handleNameChange} />
+        <br />
+        <label htmlFor="password">Password</label>
+        <input type="text" value={password} onChange={handlePasswordChange} />
+        <br />
+        <label htmlFor="avatar-image">Avatar Image</label>
+        <input type="text" value={avatar} onChange={handleAvatarChange} />
+        <br />
+        <label htmlFor="type">Account Type</label>
+        <select
+          name=""
+          id="accountType"
+          value={accountType}
+          onChange={handleAccountTypeChange}
+        >
+          <option value="">Choose account type</option>
+          <option value="Free">Free</option>
+          <option value="Normal">Normal</option>
+          <option value="Pro">Pro</option>
+        </select>
+        <br />
+        <label htmlFor="news-letter">Subscribe to our newsletter</label>
         <input
           type="checkbox"
           id="newsletter"
-          checked={formData.newsletter}
-          onChange={handleChange}
+          checked={newsletter}
+          onChange={handleSubscribeChange}
         />
-      </label>
-      <br></br>
-      <input type="submit" value="Sign Up" />
-    </form>
+        <br />
+        <input type="submit" value="Sign up" />
+      </form>
+      {/* <div>
+        <h2>Form Data:</h2>
+        <pre>{JSON.stringify(formData, null, 2)}</pre>
+      </div> */}
+    </div>
   );
 }
 

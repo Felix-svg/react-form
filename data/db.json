@@ -1,0 +1,12 @@
+{
+  "user": [
+    {
+      "id": "d93e",
+      "username": "Felix",
+      "password": "1234",
+      "avatar": "google.com/image",
+      "accountType": "Pro",
+      "newsletter": true
+    }
+  ]
+}
